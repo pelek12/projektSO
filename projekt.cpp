@@ -18,7 +18,7 @@ void ncurses(){
 for(int i=0; i < 3; i++){
 
     for(int j=0; j < 3; j++){
-		if (i ==0 && j==0 and macierz[0][0]==' ')
+		if (macierz[i][j]==' ')
 		printw("%c",' ');
 			else
         printw("%d",macierz[i][j]);
@@ -26,9 +26,11 @@ for(int i=0; i < 3; i++){
     printw("\n");
 }}
 void przetwarzacz(){
+	  std::this_thread::sleep_for(std::chrono::seconds(4)); // sleep(4);
+
  for(int i=0; i < 3; i++){
 	 temp2=temp;
-temp=macierz[i][2];
+	 temp=macierz[i][2];
 	 for(int j=0; j <1 ; j++){
 	 	macierz[i][j+2]=macierz [i][j+1];
         macierz[i][j+1]=macierz[i][j];
@@ -68,10 +70,11 @@ for(int i=0; i < 3; i++){
     
     getch();
     		clear();
-
+while (true){
         przetwarzacz();
 		refresh();
 	ncurses();
+	}
 	refresh();
 
     	getch();
