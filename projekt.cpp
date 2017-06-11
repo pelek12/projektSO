@@ -5,30 +5,50 @@
 #include <chrono>
 char m[10];
 char n[10];
+char temp=' ';
+char temp2=' ';
+int licznik=0;
 int zrodlo1=0;
 int zrodlo2=0;
-char macierz[20][20];
+char macierz[3][3];
 void producent(){
 	
 }
-void przetwarzacz(){
-
-
-}
 void ncurses(){
-for(int i=0; i < 20; i++){
+for(int i=0; i < 3; i++){
 
-    for(int j=0; j < 20; j++){
-        printw("%c",macierz[i][j]);
+    for(int j=0; j < 3; j++){
+		if (i ==0 && j==0 and macierz[0][0]==' ')
+		printw("%c",' ');
+			else
+        printw("%d",macierz[i][j]);
     }
     printw("\n");
 }}
+void przetwarzacz(){
+ for(int i=0; i < 3; i++){
+	 temp2=temp;
+temp=macierz[i][2];
+	 for(int j=0; j <1 ; j++){
+	 	macierz[i][j+2]=macierz [i][j+1];
+        macierz[i][j+1]=macierz[i][j];
+		macierz[i][j]= temp2;
+    }	
+        
+
+    
+}
+        macierz[0][0]=' ';
+
+}
+
 int main(){
 		srand( time( NULL ) );
-for(int i=0; i < 20; i++){
+for(int i=0; i < 3; i++){
 
-    for(int j=0; j < 20; j++){
-        macierz[i][j]=' ';    
+    for(int j=0; j < 3; j++){
+      macierz[i][j]=licznik;
+	licznik++;
     }
 }
 	initscr();
@@ -38,14 +58,23 @@ for(int i=0; i < 20; i++){
 	getstr(n);
 	zrodlo1=std::rand()%atoi(m);
 	zrodlo2=std::rand()%atoi(m);
-  auto przetwarzaczThread = std::thread(przetwarzacz); 
-  auto producentThread = std::thread(producent); 
+ // auto przetwarzaczThread = std::thread(przetwarzacz); 
+//  auto producentThread = std::thread(producent); 
 		clear();
         
-	macierz[10][10]='d';
-    refresh();
-       ncurses();
+      // auto ncursesThread= std::thread(ncurses);
+    ncurses();
+	refresh();
+    
+    getch();
+    		clear();
 
-	getch();
+        przetwarzacz();
+		refresh();
+	ncurses();
+	refresh();
+
+    	getch();
+
 	endwin();
 }
