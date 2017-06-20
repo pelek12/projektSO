@@ -37,13 +37,13 @@ void ncurses(){
 	
 	while(true){
 		
-		for (int i=0;i  <m; i++)
-			printw("|%d",i);
 
 		  std::this_thread::sleep_for(std::chrono::milliseconds(1000));
 
 		  clear();
-    
+    		for (int i=0;i  <n; i++)
+			printw("|%d",i%10);
+			printw("|\n");
 
 for(int i=0; i < m; i++){
 
@@ -51,7 +51,7 @@ for(int i=0; i < m; i++){
 	
         printw("|%c",macierz[i][j]);
     }
-    printw("\n");
+    printw("|\n");
 
 }	
 				for(int i=0; i < m; i++){
@@ -91,15 +91,22 @@ int main(){
 	getstr(charN);
 	m=atoi(charM);
 	n=atoi(charN);
+	
+	if (m>n){
 	macierz = new int*[n];
 for(int i = 0; i < n; ++i)
     macierz[i] = new int[m];
-	
+	}
+	else{
+			macierz = new int*[m];
+for(int i = 0; i < m; ++i)
+    macierz[i] = new int[n];
+	}
 	
 	for(int i=0; i < m; i++){
 
     for(int j=0; j < n; j++){
-	macierz[i][j]==' ';
+	macierz[i][j]=' ';
 
 
 }
