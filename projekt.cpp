@@ -60,9 +60,9 @@ for(int i=0; i < m; i++){
 	 }			
 			  macierz[i][0]= ' ';
 				}
-
-		
-				
+		for (int i=0;i<n;i++)
+			printw("|%d",i%10);
+		printw("|");
 			refresh();
 	}}				  
 void przetwarzacz(){
@@ -85,12 +85,13 @@ int main(){
 
 	
 	initscr();
-	printw("podaj wysokosc macierzy");
+	printw("podaj wysokosc macierzy: ");
 	getstr(charM);
-	printw("podaj szerokosc macierzy");
+	printw("podaj szerokosc macierzy: ");
 	getstr(charN);
-	m=atoi(charM);
-	n=atoi(charN);
+	m=std::stoi(charM);	
+	n=std::stoi(charN);
+
 	
 	macierz = new int*[m];
 for(int i = 0; i < m; ++i)
