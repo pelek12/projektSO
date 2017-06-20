@@ -85,24 +85,17 @@ int main(){
 
 	
 	initscr();
-	printw("podaj szerokosc macierzy");
-	getstr(charM);
 	printw("podaj wysokosc macierzy");
+	getstr(charM);
+	printw("podaj szerokosc macierzy");
 	getstr(charN);
 	m=atoi(charM);
 	n=atoi(charN);
 	
-	if (m>n){
-	macierz = new int*[n];
-for(int i = 0; i < n; ++i)
-    macierz[i] = new int[m];
-	}
-	else{
-			macierz = new int*[m];
+	macierz = new int*[m];
 for(int i = 0; i < m; ++i)
     macierz[i] = new int[n];
-	}
-	
+
 	for(int i=0; i < m; i++){
 
     for(int j=0; j < n; j++){
@@ -115,9 +108,9 @@ for(int i = 0; i < m; ++i)
   	auto przetwarzaczThread = std::thread(przetwarzacz); 
  	auto producentThread = std::thread(producent); 
     auto ncursesThread = std::thread(ncurses); 
-        przetwarzaczThread.join();
-      	ncursesThread.join();
-		producentThread.join();
+	przetwarzaczThread.join();
+   	ncursesThread.join();
+	producentThread.join();
 getch();
 
 	endwin();
