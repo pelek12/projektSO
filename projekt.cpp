@@ -6,51 +6,63 @@
 #include <queue>
 #include <mutex>
 #include <time.h>
-char m[10];
-char n[10];
+char charM[10];
+char charN[10];
+int m=0;
+int n=0;
 char temp=' ';
 char temp2=' ';
 int licznik=0;
 int zrodlo1=0;
 int zrodlo2=0;	
-char macierz[10][10];
+
+int** macierz;
+
+
 	std::mutex mx;
 std::queue <int> kolejka1;
 std::queue <int> kolejka2;
 void producent(){
 	while (true){
-std::this_thread::sleep_for(std::chrono::milliseconds(500));
+std::this_thread::sleep_for(std::chrono::milliseconds(400));
  mx.lock();
-	kolejka1.push(std::rand()%10);
-	kolejka2.push(std::rand()%10);
+	kolejka1.push(std::rand()%m);
+	kolejka2.push(std::rand()%n);
  mx.unlock();
 
 	}
 		
 }
 void ncurses(){
+	
 	while(true){
-		  std::this_thread::sleep_for(std::chrono::milliseconds(1000));
-		  clear();
-				for(int i=0; i < 10; i++){
-	 for(int j=9; j >0 ; j--){
-              macierz[i][j] = macierz[i][j-1];
-	 }			macierz[i][0]= ' ';
-				}
+		
+		for (int i=0;i  <m; i++)
+			printw("|%d",i);
 
+		  std::this_thread::sleep_for(std::chrono::milliseconds(1000));
+
+		  clear();
     
 
-for(int i=0; i < 10; i++){
+for(int i=0; i < m; i++){
 
-    for(int j=0; j < 10; j++){
-		if (macierz[i][j]==' ')
-		printw(" %c",' ');
-			else
-        printw(" %c",macierz[i][j]);
+    for(int j=0; j < n; j++){
+	
+        printw("|%c",macierz[i][j]);
     }
     printw("\n");
 
-}
+}	
+				for(int i=0; i < m; i++){
+	 for(int j=n-1; j >0 ; j--){
+              macierz[i][j] = macierz[i][j-1];
+	 }			
+			  macierz[i][0]= ' ';
+				}
+
+		
+				
 			refresh();
 	}}				  
 void przetwarzacz(){
@@ -58,7 +70,6 @@ void przetwarzacz(){
 	  std::this_thread::sleep_for(std::chrono::milliseconds(500)); // sleep(4);
  		 mx.lock();
 	     macierz[kolejka1.front()][kolejka2.front()]='+';
- 
 		kolejka1.pop();
 		kolejka2.pop();
 		 mx.unlock();
@@ -71,21 +82,29 @@ void przetwarzacz(){
 
 int main(){
 		srand( time( NULL ) );
-for(int i=0; i < 10; i++){
 
-    for(int j=0; j < 10; j++){
-      macierz[i][j]=' ';
-	}
-
-}
 	
 	initscr();
-//	printw("podaj szerokosc macierzy");
-	//getstr(m);
-	//printw("podaj wysokosc macierzy");
-	//getstr(n);
-	//zrodlo1=std::rand()%atoi(m);
-	//zrodlo2=std::rand()%atoi(m);
+	printw("podaj szerokosc macierzy");
+	getstr(charM);
+	printw("podaj wysokosc macierzy");
+	getstr(charN);
+	m=atoi(charM);
+	n=atoi(charN);
+	macierz = new int*[n];
+for(int i = 0; i < n; ++i)
+    macierz[i] = new int[m];
+	
+	
+	for(int i=0; i < m; i++){
+
+    for(int j=0; j < n; j++){
+	macierz[i][j]==' ';
+
+
+}
+	}
+
   	auto przetwarzaczThread = std::thread(przetwarzacz); 
  	auto producentThread = std::thread(producent); 
     auto ncursesThread = std::thread(ncurses); 
